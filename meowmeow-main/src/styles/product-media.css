@@ -1,0 +1,165 @@
+.product-media {
+  --media-ease: cubic-bezier(.22,.7,.22,1);
+  --media-rule: var(--rule, #c9c2b5);
+  min-width: 0;
+  color: var(--ink);
+}
+
+.product-media-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  min-width: 0;
+  height: clamp(270px, 69svh, 960px);
+  overflow: hidden;
+  background: var(--paper-shade, #eae6de);
+  touch-action: pan-y pinch-zoom;
+}
+
+.product-media-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.product-media-layer[data-state="current"] { z-index: 1; opacity: 1; animation: product-media-arrive .3s var(--media-ease); }
+.product-media-layer[data-state="leaving"] { transition: opacity .28s var(--media-ease) .08s; }
+
+@keyframes product-media-arrive {
+  from { opacity: 0; transform: translateX(var(--slide-shift)); }
+  to { opacity: 1; transform: none; }
+}
+
+.product-media-layer img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  margin: auto;
+  width: min(100%, var(--source-width));
+  height: min(100%, var(--source-height));
+  object-fit: contain;
+  transform: scale(var(--inspect-scale, 1));
+  transform-origin: var(--inspect-origin, 50% 50%);
+  transition: transform .32s var(--media-ease), transform-origin .18s ease-out;
+  user-select: none;
+}
+
+.product-media button { cursor: pointer; color: inherit; }
+.product-media button:focus-visible { outline: 2px solid currentColor; outline-offset: -3px; }
+.product-media .product-media-open {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  place-items: end;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  cursor: zoom-in;
+  border: 0;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.product-media-open span {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--media-rule);
+  background: var(--paper-light, #f7f3ea);
+  color: var(--ink);
+  font-size: 1.16rem;
+}
+
+.product-media-empty { color: var(--ink-muted, inherit); font: 400 .85rem var(--font-sans); }
+.product-media-tray { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; margin-top: 10px; }
+.product-media-rail {
+  position: relative;
+  display: flex;
+  gap: 7px;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-block: 2px 5px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--media-rule) transparent;
+}
+
+.product-media-thumb {
+  flex: 0 0 clamp(48px, 4.1vw, 67px);
+  aspect-ratio: 4 / 5;
+  padding: 2px;
+  border: 1px solid transparent;
+  background: var(--paper-shade, #eae6de);
+  opacity: .67;
+  transition: border-color .2s, opacity .2s;
+}
+
+.product-media-thumb[aria-current="true"], .product-media-thumb:hover { opacity: 1; }
+.product-media-thumb[aria-current="true"] { border-color: currentColor; }
+.product-media-thumb img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.product-media-navigation, .product-media-zoom { display: flex; align-items: center; justify-content: center; }
+.product-media-navigation button, .product-media-zoom button, .product-media-lightbox-head button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: 400 1.16rem var(--font-sans);
+  touch-action: manipulation;
+}
+
+.product-media-navigation button:hover, .product-media-zoom button:hover, .product-media-lightbox-head button:hover { opacity: .7; }
+.product-media-count { margin: 0; font: 400 .67rem var(--font-sans); font-variant-numeric: tabular-nums; letter-spacing: .065em; white-space: nowrap; }
+.product-media-count span { opacity: .55; margin-inline: .1em; }
+
+.product-media-lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: max(10px, env(safe-area-inset-top)) max(clamp(13px, 3vw, 48px), env(safe-area-inset-right))
+    max(10px, env(safe-area-inset-bottom)) max(clamp(13px, 3vw, 48px), env(safe-area-inset-left));
+  background: #27241f;
+  color: #f3eee2;
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.product-media-lightbox[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 8px; }
+.product-media-lightbox::backdrop { background: #27241f; }
+.product-media-lightbox-head, .product-media-lightbox-foot { display: flex; align-items: center; border-block: 1px solid #f3eee232; }
+.product-media-lightbox-head { min-width: 0; justify-content: space-between; gap: 8px; border-top: 0; }
+.product-media-lightbox-head p { margin: 0; font: 400 clamp(1.05rem, 2.1vw, 1.58rem) var(--font-sans); }
+.product-media-lightbox-head button { flex: none; padding-inline: 8px; font: 400 .68rem var(--font-sans); letter-spacing: .12em; text-transform: uppercase; }
+.product-media-lightbox-head button span { margin-inline-start: 3px; font-size: 1.15rem; vertical-align: middle; }
+.product-media-lightbox-foot { justify-content: space-between; border-bottom: 0; min-height: 44px; }
+.product-media-lightbox-foot:empty { min-height: 0; }
+.product-media-zoom { margin-inline-start: auto; }
+.product-media-zoom button:disabled { opacity: .35; cursor: default; }
+.product-media-lightbox .product-media-stage { height: 100%; min-height: 0; background: #302d27; touch-action: none; }
+.product-media-lightbox .product-media-empty { color: inherit; }
+.product-media-lightbox .product-media-layer img { transform: translate(var(--pan-x), var(--pan-y)) scale(var(--zoom-scale)); }
+.product-media-lightbox .product-media-stage[data-zoomed] { cursor: grab; }
+.product-media-lightbox .product-media-stage:active { cursor: grabbing; }
+.product-media-lightbox .product-media-stage:active img { transition: none; }
+
+@media (max-width: 760px) {
+  .product-media-stage { height: clamp(245px, 52svh, 580px); }
+  .product-media-tray { gap: 4px; margin-top: 6px; }
+  .product-media-rail { gap: 5px; }
+  .product-media-thumb { flex-basis: 47px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-media-layer[data-state="current"] { animation: none; }
+  .product-media-layer[data-state="leaving"], .product-media-layer img, .product-media-thumb { transition: none; }
+}

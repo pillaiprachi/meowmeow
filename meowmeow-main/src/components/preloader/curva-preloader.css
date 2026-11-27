@@ -1,0 +1,70 @@
+@font-face {
+  font-family: "CURVA Bodoni";
+  src: url("./curva-wordmark.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+html:has(.curva-preloader) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+.curva-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  color: var(--ink, #29251f);
+}
+
+.curva-preloader__layer {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: var(--paper-light, #fbf8f0);
+  will-change: transform;
+}
+
+.curva-preloader__composition {
+  width: min(88vw, 43vw + 221px, 1120px);
+  container-type: inline-size;
+  transform: translateY(3.5vh);
+}
+
+.curva-preloader__mask {
+  overflow: hidden;
+}
+
+.curva-preloader__wordmark {
+  display: block;
+  position: relative;
+  left: -.38cqw;
+  font: 400 30.15cqw / .84 "CURVA Bodoni", "Bodoni MT", Didot, "Times New Roman", serif;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.curva-preloader__metadata {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: clamp(12px, 1.35vw, 23px);
+  font: 400 clamp(9px, .72vw, 12px) / 1 var(--font-sans, "Neue Haas Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: clamp(1.2px, .16vw, 2.8px);
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.curva-preloader__metadata span:last-child {
+  margin-right: calc(-1 * clamp(1.2px, .16vw, 2.8px));
+}

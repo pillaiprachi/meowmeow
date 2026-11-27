@@ -1,0 +1,43 @@
+/* Shared CURVA colours and typefaces. */
+
+/* Use a locally installed copy of Neue Haas Grotesk when available. */
+@font-face {
+  font-family: "Neue Haas Grotesk";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Neue Haas Grotesk Text Pro 55 Roman"), local("NHaasGroteskTXPro-55Rg"),
+       local("Neue Haas Grotesk Display Pro 55 Roman"), local("NHaasGroteskDSPro-55Rg"),
+       local("NeueHaasDisplay-Roman"), local("Neue Haas Grotesk Text Pro"),
+       local("Neue Haas Grotesk Display Pro"), local("Neue Haas Grotesk");
+}
+@font-face {
+  font-family: "Neue Haas Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("Neue Haas Grotesk Display Pro Medium"), local("NeueHaasDisplay-Mediu"),
+       local("Neue Haas Grotesk Text Pro Medium"), local("NHaasGroteskTXPro-65Md");
+}
+
+:root {
+  --paper-light: #fbf8f0;
+  --paper: #f7f4ea;
+  --paper-shade: #eee8dc;
+  --ink: #29251f;
+  --ink-muted: #62594e;
+  --rule: #29251f26;
+  --font-sans: "Neue Haas Grotesk", "Neue Haas Grotesk Text Pro", "Neue Haas Grotesk Display Pro",
+               "Neue Haas Grotesk Text", "Neue Haas Grotesk Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-logo: "Cormorant Garamond", Georgia, serif; /* wordmark only, weight 300 */
+}
+
+body { font-family: var(--font-sans); }
+
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-style: normal;
+}
+
+:where(button, input, select, textarea) { font-family: inherit; }
