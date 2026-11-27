@@ -48,10 +48,32 @@ export function mountHelix(section, {ties, onSettle, onMove, onInspect}) {
       const facing = Math.atan2(rz * Math.sin(angle), rx * Math.cos(angle));
       const arrival = smooth(0, 1, state.intro * 1.6 - distance / total);
       const fade = 1 - smooth(perTurn * .55, total / 2, distance);
+
       const nearFront = Math.max(0, 1 - distance);
       const opacity = arrival * fade * (1 - state.focus * .72 * (1 - nearFront));
+
+      // The tie's image is brighter when it is facing the viewer, and dimmer when edge-on.// Individual gravity-inspired movement for each tie
+const phase = slot * 1.37;
+const time = now * 0.001;
+
+const idleSway = reduced
+  ? 0
+  : Math.sin(time * 0.85 + phase) * 1.1;
+
+const secondarySway = reduced
+  ? 0
+  : Math.sin(time * 0.48 + phase * 1.6) * 0.65;
+
+// Fabric trails slightly behind the direction of movement
+const inertia = reduced
+  ? 0
+  : gsap.utils.clamp(-2.5, 2.5, -velocity * 0.65);
+
+const naturalRotation = idleSway + secondarySway + inertia;
+
       item.style.transform = `translate(-50%,-50%) translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,${z.toFixed(2)}px) ` +
-        `rotateY(${facing.toFixed(4)}rad) rotateZ(${(lean * (.5 + .5 * nearFront)).toFixed(2)}deg)`;
+      `rotateY(${facing.toFixed(4)}rad) ` +
+       `rotateZ(${(lean * (.5 + .5 * nearFront) + naturalRotation).toFixed(2)}deg)`;
       item.style.opacity = opacity.toFixed(3);
       item.style.visibility = opacity < .01 ? 'hidden' : '';
       item.style.filter = `brightness(${(.6 + .4 * Math.max(0, Math.cos(angle))).toFixed(3)})`;
